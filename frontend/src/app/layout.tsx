@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import type { ReactNode } from "react";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   description: "AI-powered industrial visual inspection system for steel surface defect detection",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
