@@ -1,0 +1,48 @@
+# Training configuration for the YOLOv8 defect detector.
+# Every hyperparameter Ultralytics exposes that we actually tune lives here -
+# scripts/train.py reads this file rather than hardcoding values, so a new
+# experiment is a new config file, not a code change.
+
+data_yaml: ml/data/processed/NEU-DET/data.yaml
+
+model:
+  # Nano: smallest YOLOv8 detector (~3.2M params). Chosen deliberately over
+  # s/m/l/x - NEU-DET has only 6 classes, 200x200 native resolution, and
+  # ~1.2k training images, so a larger backbone would overfit and buys
+  # nothing on a CPU/MPS-only training box. See README "Model" section.
+  arch: yolov8n.pt
+  pretrained: true # start from COCO weights, fine-tune (transfer learning)
+
+image_size: 320 # native images are 200x200; 320 avoids excessive upsampling vs YOLO's 640 default
+epochs: 100
+batch_size: 16
+patience: 30 # early stopping: stop if val mAP50-95 doesn't improve for N epochs
+seed: 42
+
+optimizer:
+  name: SGD
+  lr0: 0.01
+  lrf: 0.01 # final LR = lr0 * lrf (cosine schedule)
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3
+
+augmentation:
+  hsv_h: 0.015
+  hsv_s: 0.3 # reduced from YOLO default 0.7: NEU-DET is grayscale, heavy
+             # saturation jitter on a fake-color 3-channel copy adds noise
+             # without a realistic corresponding failure mode
+  hsv_v: 0.4
+  degrees: 5.0 # small rotation only - defect orientation is somewhat
+               # meaningful (e.g. scratches), unlike natural-image tasks
+  translate: 0.1
+  scale: 0.3
+  fliplr: 0.5
+  flipud: 0.5 # steel strip images have no canonical "up", unlike COCO photos
+  mosaic: 1.0
+  mixup: 0.0
+
+device: auto # resolved at runtime: "mps" on Apple Silicon, "cuda" if available, else "cpu"
+
+runs_dir: ml/runs
+project_name: defectvision

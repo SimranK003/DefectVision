@@ -1,0 +1,57 @@
+{
+  "dataset_version": "1.0.0",
+  "generated_at": "2026-09-21T06:36:24.497181+00:00",
+  "validation": {
+    "total_files_seen": 1800,
+    "valid_images": 1800,
+    "invalid_images": 0,
+    "issue_counts": {},
+    "class_image_counts": {
+      "crazing": 300,
+      "inclusion": 382,
+      "patches": 342,
+      "pitted_surface": 301,
+      "rolled-in_scale": 300,
+      "scratches": 300
+    },
+    "class_box_counts": {
+      "crazing": 689,
+      "inclusion": 1011,
+      "patches": 881,
+      "pitted_surface": 432,
+      "rolled-in_scale": 628,
+      "scratches": 548
+    },
+    "total_boxes": 4189,
+    "boxes_per_image_min": 1,
+    "boxes_per_image_max": 9,
+    "boxes_per_image_mean": 2.3272222222222223,
+    "invalid_examples": []
+  },
+  "split_class_counts": {
+    "train": {
+      "crazing": 210,
+      "inclusion": 210,
+      "patches": 210,
+      "pitted_surface": 210,
+      "rolled-in_scale": 210,
+      "scratches": 210
+    },
+    "val": {
+      "crazing": 45,
+      "inclusion": 45,
+      "patches": 45,
+      "pitted_surface": 45,
+      "rolled-in_scale": 45,
+      "scratches": 45
+    },
+    "test": {
+      "crazing": 45,
+      "inclusion": 45,
+      "patches": 45,
+      "pitted_surface": 45,
+      "rolled-in_scale": 45,
+      "scratches": 45
+    }
+  }
+}

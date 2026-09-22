@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Ultralytics auto-downloads the COCO-pretrained starting weights to the cwd
+# the first time YOLO("yolov8n.pt") runs without a local copy - it's a cache,
+# not a repo asset.
+/yolov8n.pt
+
+# ML data & artifacts (reproducible via scripts, not vendored)
+# Reports (dataset_report.md/json, class_distribution.png, eval curves) ARE
+# committed - they're small and are the evidence this project ships with.
+ml/data/raw/
+ml/data/processed/
+# Every training run's weights are excluded by default (regenerate via
+# ml/scripts/train.py) EXCEPT the specific promoted-production checkpoint,
+# which is force-added on purpose - see README "Deployment".
+ml/runs/*/weights/*.pt
+!ml/runs/defectvision/weights/best.pt
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/tsconfig.tsbuildinfo
+
+# Env files
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# OS
+.DS_Store
+
+# Uploaded/inference scratch files
+backend/uploads/
+backend/app.log

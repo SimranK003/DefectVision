@@ -1,0 +1,15 @@
+.venv/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+
+frontend/node_modules/
+frontend/.next/
+
+ml/data/raw/
+ml/data/processed/
+
+backend/uploads/
+.git/
+.claude/
+*.md

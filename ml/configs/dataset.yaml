@@ -1,0 +1,46 @@
+# Dataset acquisition + preprocessing configuration for NEU-DET.
+# Every path/ratio the pipeline uses lives here so runs are reproducible
+# from a single config instead of flags scattered across scripts.
+
+dataset_name: NEU-DET
+dataset_version: "1.0.0" # bump when raw data or split logic changes
+
+source:
+  # Unofficial GitHub mirror of the official NEU-DET release (Song & Yan,
+  # Northeastern University). Pinned to a commit so re-downloads are
+  # byte-identical. See README.md "Dataset" section for the official
+  # source and license discussion.
+  git_url: https://github.com/dbh92/NEU_DET.git
+  git_commit: 95de3486c516ebcba7c2c92bf15268479ba23d7d
+  subdir: datasets/NEU-DET
+
+paths:
+  raw_dir: ml/data/raw/NEU-DET # untouched clone of the source, images + VOC XML
+  processed_dir: ml/data/processed/NEU-DET # YOLO-format dataset (images/ + labels/ + data.yaml)
+  reports_dir: ml/data/reports # dataset validation/EDA reports
+
+classes:
+  - crazing
+  - inclusion
+  - patches
+  - pitted_surface
+  - rolled-in_scale
+  - scratches
+
+split:
+  # Stratified per-class split with a fixed seed. We do NOT use the
+  # source repo's own train/validation folders as the ground truth split:
+  # the mirror has a known off-by-one file swap between them (crazing_240
+  # lives in train/images but validation/annotations - see dataset report).
+  # Instead every image+annotation pair is pooled and re-split here, which
+  # also gives us a held-out test set that the original release lacks.
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  seed: 42
+
+image_size: 200 # native NEU-DET resolution (square, grayscale)
+
+validation:
+  min_bbox_area_px: 4 # drop/flag boxes smaller than 2x2 px (annotation noise)
+  allowed_extensions: [".jpg", ".jpeg"]
